@@ -28,9 +28,9 @@ public class MainMenu extends JPanel {
 		playButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Game game = new Game();
-				game.setSize(new Dimension(900, 650));
-				game.setVisible(true);
+				AmountSelector amuntSelector = new AmountSelector(null);
+				amuntSelector.setSize(new Dimension(400, 300));
+				amuntSelector.setVisible(true);
 			}
 		});
 

@@ -2,7 +2,7 @@ package com.example;
 
 import java.util.ArrayList;
 
-abstract class Participant {
+class Participant {
     private ArrayList<Card> cards;
     private int score;
 
@@ -18,10 +18,6 @@ abstract class Participant {
 
         cards.add(card);
         score += card.getValue();
-
-        if (score > 21) {
-            score = -1;
-        }
     }
 
     public int getScore() {
@@ -30,10 +26,5 @@ abstract class Participant {
 
     public ArrayList<Card> getCards() {
         return cards;
-    }
-
-    public void reset() {
-        cards = new ArrayList<Card>();
-        score = 0;
     }
 }

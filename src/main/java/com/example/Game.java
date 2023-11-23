@@ -20,12 +20,22 @@ public class Game extends JFrame {
 	private JPanel dealerScoreHolder;
 	private JLabel dealerScore;
 	private JPanel playerCardHolder;
+	private JPanel coinTextHolder;
+	private JLabel coinSymbol;
+	private JLabel label2;
+	private JPanel dealerCardHolder;
+	private JPanel resultContainer;
+	private JLabel resultText;
+	private JSeparator resultSeparator;
+	private JButton newGameButton;
 
-	Deck deck;
+	Player player;
+	Deck deck = new Deck();
+	Participant dealer = new Participant();
 
-	Player player = new Player();
-
-	public Game() {
+	
+	public Game(Player player) {
+		this.player = player;
 		initComponents();
 	}
 
@@ -43,8 +53,14 @@ public class Game extends JFrame {
 		dealerScoreHolder = new JPanel();
 		dealerScore = new JLabel();
 		playerCardHolder = new JPanel();
-
-		deck = new Deck();
+		dealerCardHolder = new JPanel();
+		coinTextHolder = new JPanel();
+		coinSymbol = new JLabel();
+		label2 = new JLabel();
+		resultContainer = new JPanel();
+		resultText = new JLabel();
+		newGameButton = new JButton();
+		resultSeparator = new JSeparator();
 
 		setBackground(new Color(0x009900));
 
@@ -63,23 +79,62 @@ public class Game extends JFrame {
 		hintButton.setText("Hint");
 		add(hintButton);
 		hintButton.setBounds(new Rectangle(new Point(300, 495), hintButton.getPreferredSize()));
-		final Deck finalDeck = deck;
 		hintButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Card card = finalDeck.draw();
+				Card card = deck.draw();
 				player.addCard(card);
 				playerScore.setText("Score:" + player.getScore());
 				playerCardHolder.add(card.getCardGraphic());
+				playerCardHolder.setBounds(new Rectangle((450 - 54 * player.getCards().size() / 2),400, 54 * player.getCards().size(), 87));
 				setSize(900,650);
 
-				if (player.getScore() == -1) {
-					GameoverModal gameoverModal = new GameoverModal(Game.this, "Bust");
-					gameoverModal.setSize(400, 300);
-					gameoverModal.setVisible(true);
-					hintButton.setEnabled(false);
+				if (player.getCards().size() == 2 && player.getScore() == 21) {
+					resultText.setText("Blackjack!");
+					resultContainer.setVisible(true);
+				}
+
+				if (player.getScore() > 21) {
+					resultText.setText("Bust!");
+					resultContainer.setVisible(true);
 				}
 			}
 		});
+
+		holdButton.setText("Hold");
+		add(holdButton);
+		holdButton.setBounds(new Rectangle(new Point(375, 495), holdButton.getPreferredSize()));
+		holdButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				hintButton.setEnabled(false);
+				Timer timer = new Timer(2000, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if (dealer.getScore() < 17 && dealer.getScore() < player.getScore() && dealer.getScore() < 21) {
+							Card card = deck.draw();
+							dealer.addCard(card);
+							dealerScore.setText("Score:" + dealer.getScore());
+							dealerCardHolder.add(card.getCardGraphic());
+							dealerCardHolder.setBounds(new Rectangle((450 - 54 * dealer.getCards().size() / 2),15, 54 * dealer.getCards().size(), 87));
+							setSize(900, 650);
+						} else {
+							((Timer) e.getSource()).stop();
+							if (dealer.getScore() > player.getScore() && dealer.getScore() <= 21) {
+								resultText.setText("You lose!");
+								resultContainer.setVisible(true);
+							} else if (dealer.getScore() == player.getScore()) {
+								resultText.setText("Tie!");
+								resultContainer.setVisible(true);
+							} else {
+								resultText.setText("You win!");
+								resultContainer.setVisible(true);
+							}
+						}
+					}
+				});
+				timer.start();
+			}
+		});
+		
 
 		stopButton.setText("Stop");
 		add(stopButton);
@@ -88,10 +143,6 @@ public class Game extends JFrame {
 		doubleButton.setText("Double");
 		add(doubleButton);
 		doubleButton.setBounds(new Rectangle(new Point(450, 495), doubleButton.getPreferredSize()));
-
-		holdButton.setText("Hold");
-		add(holdButton);
-		holdButton.setBounds(new Rectangle(new Point(375, 495), holdButton.getPreferredSize()));
 
 		betLabel.setText("Bet");
 		betLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 13));
@@ -116,20 +167,60 @@ public class Game extends JFrame {
 		add(playerScoreHolder);
 		playerScoreHolder.setBounds(415, 535, 70, 35);
 		
-		dealerScoreHolder.setMinimumSize(new Dimension(76, 27));
-		dealerScoreHolder.setMaximumSize(new Dimension(76, 27));
+		dealerScoreHolder.setPreferredSize(new Dimension(80, 30));
 		dealerScoreHolder.setBackground(new Color(0x666666));
 		dealerScoreHolder.setLayout(null);
 
-		dealerScore.setText("9 or 19");
+		dealerScore.setText("Score: 0");
 		dealerScoreHolder.add(dealerScore);
-		dealerScore.setBounds(new Rectangle(new Point(10, 10), dealerScore.getPreferredSize()));
+		dealerScore.setBounds(10, 10, 60,17);
 		
 		add(dealerScoreHolder);
-		dealerScoreHolder.setBounds(415, 150, 60, 35);
+		dealerScoreHolder.setBounds(415, 150, 70, 35);
+
+		add(dealerCardHolder);
+		dealerCardHolder.setLayout(new BoxLayout(dealerCardHolder, BoxLayout.X_AXIS));
 
 		add(playerCardHolder);
 		playerCardHolder.setLayout(new BoxLayout(playerCardHolder, BoxLayout.X_AXIS));
-		playerCardHolder.setBounds(new Rectangle(430,400, 54, 87));
+
+		coinTextHolder.setBackground(new Color(0x009900));
+		coinTextHolder.setLayout(new BoxLayout(coinTextHolder, BoxLayout.X_AXIS));
+
+		coinSymbol.setText("\u25cf");
+		coinSymbol.setFont(new Font("Helvetica Neue", Font.PLAIN, 24));
+		coinSymbol.setForeground(Color.yellow);
+		coinTextHolder.add(coinSymbol);
+
+		label2.setText(player.getCoins() + "");
+		coinTextHolder.add(label2);
+
+		coinHolder.add(coinTextHolder);
+		coinTextHolder.setBounds(10, 20, 50, 29);
+
+		resultContainer.setLayout(new BoxLayout(resultContainer, BoxLayout.Y_AXIS));
+
+		resultText.setText("You win!");
+		resultText.setFont(new Font("Helvetica Neue", Font.BOLD, 24));
+		resultContainer.add(resultText);
+
+		resultSeparator.setPreferredSize(new Dimension(0, 7));
+		resultContainer.add(resultSeparator);
+
+		newGameButton.setText("New Game");
+		resultContainer.add(newGameButton);
+		newGameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				AmountSelector amuntSelector = new AmountSelector(null);
+				amuntSelector.setSize(new Dimension(400, 300));
+				amuntSelector.setVisible(true);
+				dispose();
+			}
+		});
+
+		resultContainer.setVisible(false);
+	
+		add(resultContainer);
+		resultContainer.setBounds(new Rectangle(new Point(395, 220), resultContainer.getPreferredSize()));
 	}
 }

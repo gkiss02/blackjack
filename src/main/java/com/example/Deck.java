@@ -21,14 +21,4 @@ public class Deck {
     public Card draw() {
         return cards.remove((int) (Math.random() * cards.size()));
     }
-
-    public void shuffle() {
-        ArrayList<Card> newCards = new ArrayList<Card>();
-
-        while (cards.isEmpty()) {
-            newCards.add(cards.remove((int) (Math.random() * cards.size())));
-        }
-
-        cards = newCards;
-    }
 }

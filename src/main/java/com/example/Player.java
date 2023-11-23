@@ -5,7 +5,7 @@ public class Player extends Participant{
 
     public Player() {
         super();
-        coin = 100;
+        coin = 0;
     }
 
     public void addCoin(int coin) {
@@ -16,7 +16,7 @@ public class Player extends Participant{
         this.coin -= coin;
     }
 
-    public int getCoin() {
+    public int getCoins() {
         return coin;
     }
 }
