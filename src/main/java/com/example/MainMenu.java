@@ -42,7 +42,7 @@ public class MainMenu extends JPanel {
 		add(exitButton);
 		exitButton.setBounds(new Rectangle(new Point(165, 135), exitButton.getPreferredSize()));
 
-		coinCounterLabel.setText("Coins: 250");
+		coinCounterLabel.setText("Coins: " + App.statics.getCoins());
 		add(coinCounterLabel);
 		coinCounterLabel.setBounds(new Rectangle(new Point(325, 10), coinCounterLabel.getPreferredSize()));
 

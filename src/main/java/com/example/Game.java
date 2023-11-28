@@ -81,22 +81,7 @@ public class Game extends JFrame {
 		hintButton.setBounds(new Rectangle(new Point(300, 495), hintButton.getPreferredSize()));
 		hintButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Card card = deck.draw();
-				player.addCard(card);
-				playerScore.setText("Score:" + player.getScore());
-				playerCardHolder.add(card.getCardGraphic());
-				playerCardHolder.setBounds(new Rectangle((450 - 54 * player.getCards().size() / 2),400, 54 * player.getCards().size(), 87));
-				setSize(900,650);
-
-				if (player.getCards().size() == 2 && player.getScore() == 21) {
-					resultText.setText("Blackjack!");
-					resultContainer.setVisible(true);
-				}
-
-				if (player.getScore() > 21) {
-					resultText.setText("Bust!");
-					resultContainer.setVisible(true);
-				}
+				playerDrawCard();
 			}
 		});
 
@@ -105,33 +90,8 @@ public class Game extends JFrame {
 		holdButton.setBounds(new Rectangle(new Point(375, 495), holdButton.getPreferredSize()));
 		holdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				hintButton.setEnabled(false);
-				Timer timer = new Timer(2000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (dealer.getScore() < 17 && dealer.getScore() < player.getScore() && dealer.getScore() < 21) {
-							Card card = deck.draw();
-							dealer.addCard(card);
-							dealerScore.setText("Score:" + dealer.getScore());
-							dealerCardHolder.add(card.getCardGraphic());
-							dealerCardHolder.setBounds(new Rectangle((450 - 54 * dealer.getCards().size() / 2),15, 54 * dealer.getCards().size(), 87));
-							setSize(900, 650);
-						} else {
-							((Timer) e.getSource()).stop();
-							if (dealer.getScore() > player.getScore() && dealer.getScore() <= 21) {
-								resultText.setText("You lose!");
-								resultContainer.setVisible(true);
-							} else if (dealer.getScore() == player.getScore()) {
-								resultText.setText("Tie!");
-								resultContainer.setVisible(true);
-							} else {
-								resultText.setText("You win!");
-								resultContainer.setVisible(true);
-							}
-						}
-					}
-				});
-				timer.start();
+				disableButtons();
+				dealerDrawCard();
 			}
 		});
 		
@@ -139,10 +99,22 @@ public class Game extends JFrame {
 		stopButton.setText("Stop");
 		add(stopButton);
 		stopButton.setBounds(new Rectangle(new Point(525, 495), stopButton.getPreferredSize()));
+		stopButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				disableButtons();
+			}
+		});
 
 		doubleButton.setText("Double");
 		add(doubleButton);
 		doubleButton.setBounds(new Rectangle(new Point(450, 495), doubleButton.getPreferredSize()));
+		doubleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				disableButtons();
+				playerDrawCard();
+				dealerDrawCard();
+			}
+		});
 
 		betLabel.setText("Bet");
 		betLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 13));
@@ -222,5 +194,61 @@ public class Game extends JFrame {
 	
 		add(resultContainer);
 		resultContainer.setBounds(new Rectangle(new Point(395, 220), resultContainer.getPreferredSize()));
+	}
+
+	private void disableButtons() {
+		hintButton.setEnabled(false);
+		stopButton.setEnabled(false);
+		doubleButton.setEnabled(false);
+		holdButton.setEnabled(false);
+	}
+
+	private void playerDrawCard() {
+		Card card = deck.draw();
+		player.addCard(card);
+		playerScore.setText("Score:" + player.getScore());
+		playerCardHolder.add(card.getCardGraphic());
+		playerCardHolder.setBounds(new Rectangle((450 - 54 * player.getCards().size() / 2),400, 54 * player.getCards().size(), 87));
+		setSize(900,650);
+
+		if (player.getCards().size() == 2 && player.getScore() == 21) {
+			resultText.setText("Blackjack!");
+			resultContainer.setVisible(true);
+		}
+
+		if (player.getScore() > 21) {
+			resultText.setText("Bust!");
+			resultContainer.setVisible(true);
+			disableButtons();
+		}
+	}
+
+	private void dealerDrawCard() {
+		Timer timer = new Timer(2000, new ActionListener() {
+		@Override
+			public void actionPerformed(ActionEvent e) {
+				if (dealer.getScore() < 17 && dealer.getScore() < player.getScore() && dealer.getScore() < 21) {
+					Card card = deck.draw();
+					dealer.addCard(card);
+					dealerScore.setText("Score:" + dealer.getScore());
+					dealerCardHolder.add(card.getCardGraphic());
+					dealerCardHolder.setBounds(new Rectangle((450 - 54 * dealer.getCards().size() / 2),15, 54 * dealer.getCards().size(), 87));
+					setSize(900, 650);
+				} else {
+					((Timer) e.getSource()).stop();
+					if (dealer.getScore() > player.getScore() && dealer.getScore() <= 21) {
+						resultText.setText("You lose!");
+						resultContainer.setVisible(true);
+					} else if (dealer.getScore() == player.getScore()) {
+						resultText.setText("Tie!");
+						resultContainer.setVisible(true);
+					} else {
+						resultText.setText("You win!");
+						resultContainer.setVisible(true);
+					}
+				}
+			}
+		});
+		timer.start();
 	}
 }
