@@ -102,6 +102,9 @@ public class Game extends JFrame {
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				disableButtons();
+				App.statics.setCoins(App.statics.getCoins() + player.getCoins() / 2);
+				resultText.setText("Stopped!");
+				resultContainer.setVisible(true);
 			}
 		});
 
@@ -110,6 +113,9 @@ public class Game extends JFrame {
 		doubleButton.setBounds(new Rectangle(new Point(450, 495), doubleButton.getPreferredSize()));
 		doubleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
+				App.statics.setCoins(App.statics.getCoins() - player.getCoins());
+				player.addCoin(player.getCoins());
+				label2.setText(player.getCoins() + "");
 				disableButtons();
 				playerDrawCard();
 				dealerDrawCard();
@@ -240,9 +246,11 @@ public class Game extends JFrame {
 						resultText.setText("You lose!");
 						resultContainer.setVisible(true);
 					} else if (dealer.getScore() == player.getScore()) {
+						App.statics.setCoins(App.statics.getCoins() + player.getCoins());
 						resultText.setText("Tie!");
 						resultContainer.setVisible(true);
 					} else {
+						App.statics.setCoins(App.statics.getCoins() + player.getCoins() * 2);
 						resultText.setText("You win!");
 						resultContainer.setVisible(true);
 					}

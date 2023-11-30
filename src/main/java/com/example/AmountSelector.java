@@ -3,7 +3,6 @@ package com.example;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
@@ -15,7 +14,9 @@ public class AmountSelector extends JDialog {
 	}
 
 	private void initComponents() {
-		slider = new JSlider(5, 125);
+		int maxCoins = App.statics.getCoins();
+
+		slider = new JSlider(5,maxCoins,maxCoins/2);
 		currentLabel = new JLabel();
 		minLabel = new JLabel();
 		maxLabel = new JLabel();
@@ -33,7 +34,7 @@ public class AmountSelector extends JDialog {
 			}
 		});
 
-		currentLabel.setText("Your current amount: 250 coins");
+		currentLabel.setText("Your current amount: "+ maxCoins + " coins");
 		contentPane.add(currentLabel);
 		currentLabel.setBounds(new Rectangle(new Point(110, 55), currentLabel.getPreferredSize()));
 
@@ -41,13 +42,13 @@ public class AmountSelector extends JDialog {
 		contentPane.add(minLabel);
 		minLabel.setBounds(new Rectangle(new Point(60, 120), minLabel.getPreferredSize()));
 
-		maxLabel.setText("Max: 150 coins");
+		maxLabel.setText("Max: "+ maxCoins + " coins");
 		contentPane.add(maxLabel);
 		maxLabel.setBounds(new Rectangle(new Point(280, 120), maxLabel.getPreferredSize()));
 
-		value.setText("123");
+		value.setText(slider.getValue() + "");
 		contentPane.add(value);
-		value.setBounds(new Rectangle(new Point(185, 175), value.getPreferredSize()));
+		value.setBounds(185,175,40,16);
 
 		okButton.setText("OK");
 		contentPane.add(okButton);
@@ -57,6 +58,7 @@ public class AmountSelector extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Player player = new Player();
 				player.addCoin(slider.getValue());
+				App.statics.setCoins(App.statics.getCoins() - slider.getValue());
 				Game game = new Game(player);
 				game.setSize(new Dimension(900, 650));
 				game.setVisible(true);
