@@ -3,6 +3,7 @@ package com.example;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import javax.swing.*;
 
@@ -17,6 +18,29 @@ public class MainMenu extends JPanel {
 		exitButton = new JButton();
 		coinCounterLabel = new JLabel();
 		madeByLabel = new JLabel();
+
+		if (App.statics.getLastLogin().equals(LocalDate.parse("2019-01-01"))) {
+			App.statics.setCoins(1000);
+			String text1 = "Welcome to the world of Black Jack!";
+			String text2 = "Here is your 1000 coins as a bonus";
+			LoginModal loginModal = new LoginModal(null, text1, text2);
+			loginModal.setSize(new Dimension(400, 300));
+			loginModal.setVisible(true);
+		} 
+
+		if (App.statics.getLastLogin().plusDays(1).equals(LocalDate.now())) {
+			int bonus = 100 + 25 * App.statics.getContinuousPlays();
+			App.statics.setCoins(App.statics.getCoins() + bonus);
+			String text1 = "Thank you for coming back " + App.statics.getContinuousPlays() + " days in a row!";
+			String text2 = "Here is your " + bonus + " coins as a bonus";
+			LoginModal loginModal = new LoginModal(null, text1, text2);
+			loginModal.setSize(new Dimension(400, 300));
+			loginModal.setVisible(true);
+		} else {
+			App.statics.setContinuousPlays(0);
+		}
+
+		App.statics.increaseContinuousPlays();
 
 		setLayout(null);
 

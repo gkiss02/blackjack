@@ -12,12 +12,22 @@ class Participant {
     }
 
     public void addCard(Card card) {
-        if (card.getValue() == 1 && score + 11 <= 21) {
-            card.setValue(11);
-        }
-
         cards.add(card);
         score += card.getValue();
+        
+        for (Card c : cards) {
+            if (c.getName().equals("A") && score + 11 <= 21) {
+                c.setValue(11);
+            } else if (c.getName().equals("A") && score + 11 > 21) {
+                c.setValue(1);
+            }
+        }
+
+        score = 0;
+
+        for (Card c : cards) {
+            score += c.getValue();
+        }
     }
 
     public int getScore() {
@@ -26,5 +36,15 @@ class Participant {
 
     public ArrayList<Card> getCards() {
         return cards;
+    }
+
+    public boolean isSoft() {
+        boolean containsA = false;
+        for (Card c : cards) {
+            if (c.getName().equals("A")) {
+                containsA = true;
+            }
+        }
+        return score == 17 && containsA;
     }
 }

@@ -25,6 +25,10 @@ public class Card {
         return cardGraphic;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setValue(int value) {
         this.value = value;
     }

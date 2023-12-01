@@ -158,6 +158,9 @@ public class Game extends JFrame {
 
 		add(dealerCardHolder);
 		dealerCardHolder.setLayout(new BoxLayout(dealerCardHolder, BoxLayout.X_AXIS));
+		dealerGetCard();
+		dealerCardHolder.add(new CardBackground());
+		dealerCardHolder.setBounds(new Rectangle((450 - 54),15, 54 * 2, 87));
 
 		add(playerCardHolder);
 		playerCardHolder.setLayout(new BoxLayout(playerCardHolder, BoxLayout.X_AXIS));
@@ -218,8 +221,10 @@ public class Game extends JFrame {
 		setSize(900,650);
 
 		if (player.getCards().size() == 2 && player.getScore() == 21) {
+			App.statics.setCoins(App.statics.getCoins() + player.getCoins() * 5 / 2);
 			resultText.setText("Blackjack!");
 			resultContainer.setVisible(true);
+			disableButtons();
 		}
 
 		if (player.getScore() > 21) {
@@ -230,14 +235,12 @@ public class Game extends JFrame {
 	}
 
 	private void dealerDrawCard() {
+		dealerCardHolder.remove(1);
 		Timer timer = new Timer(2000, new ActionListener() {
 		@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dealer.getScore() < 17 && dealer.getScore() < player.getScore() && dealer.getScore() < 21) {
-					Card card = deck.draw();
-					dealer.addCard(card);
-					dealerScore.setText("Score:" + dealer.getScore());
-					dealerCardHolder.add(card.getCardGraphic());
+				if ((dealer.getScore() <= 16 || dealer.isSoft()) && dealer.getScore() < player.getScore() && dealer.getScore() < 21) {
+					dealerGetCard();
 					dealerCardHolder.setBounds(new Rectangle((450 - 54 * dealer.getCards().size() / 2),15, 54 * dealer.getCards().size(), 87));
 					setSize(900, 650);
 				} else {
@@ -258,5 +261,12 @@ public class Game extends JFrame {
 			}
 		});
 		timer.start();
+	}
+
+	private void dealerGetCard () {
+		Card card = deck.draw();
+		dealer.addCard(card);
+		dealerScore.setText("Score:" + dealer.getScore());
+		dealerCardHolder.add(card.getCardGraphic());
 	}
 }
