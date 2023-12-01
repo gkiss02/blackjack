@@ -257,6 +257,7 @@ public class Game extends JFrame {
 			disableButtons();
 			App.statics.increaseWins();
 			App.statics.setCoinsWon(player.getCoins() * 5 / 2);
+			App.statics.write();
 		}
 
 		if (player.getScore() > 21) {
@@ -265,6 +266,7 @@ public class Game extends JFrame {
 			disableButtons();
 			App.statics.increaseLoses();
 			App.statics.setCoinsLost(player.getCoins());
+			App.statics.write();
 		}
 	}
 
@@ -284,17 +286,20 @@ public class Game extends JFrame {
 						resultContainer.setVisible(true);
 						App.statics.increaseLoses();
 						App.statics.setCoinsLost(player.getCoins());
+						App.statics.write();
 					} else if (dealer.getScore() == player.getScore()) {
 						App.statics.setCoins(App.statics.getCoins() + player.getCoins());
 						resultText.setText("Tie!");
 						resultContainer.setVisible(true);
 						App.statics.increaseTies();
+						App.statics.write();
 					} else {
 						App.statics.setCoins(App.statics.getCoins() + player.getCoins() * 2);
 						resultText.setText("You win!");
 						resultContainer.setVisible(true);
 						App.statics.increaseWins();
 						App.statics.setCoinsWon(player.getCoins() * 2);
+						App.statics.write();
 					}
 				}
 			}

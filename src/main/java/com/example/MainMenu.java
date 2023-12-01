@@ -41,6 +41,7 @@ public class MainMenu extends JPanel {
 		}
 
 		App.statics.increaseContinuousPlays();
+		App.statics.write();
 
 		setLayout(null);
 

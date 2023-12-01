@@ -7,6 +7,7 @@ public class App
     public static Statics statics = new Statics();
     public static void main( String[] args )
     {
+        statics.read();
         JFrame frame = new JFrame("Black Jack");
         frame.add(new MainMenu());
         frame.pack();

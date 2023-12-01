@@ -19,7 +19,7 @@ public class Statics {
     private int coinsWon;
     private int coinsLost;
 
-    public Statics() {
+    public void read() {
         try {
             JsonReader reader = Json.createReader(new FileInputStream("statics.json"));
             JsonObject statics = reader.readObject();
@@ -69,45 +69,37 @@ public class Statics {
     public int getCoinsLost() {
         return coinsLost;
     }
-
+    
     public void increaseWins() {
         this.wins++;
-        write();
     }
 
     public void increaseTies() {
         this.ties++;
-        write();
     }
 
     public void increaseLoses() {
         this.loses++;
-        write();
     }
 
     public void setCoinsWon(int coinsWon) {
         this.coinsWon += coinsWon;
-        write();
     }
 
     public void setCoinsLost(int coinsLost) {
         this.coinsLost += coinsLost;
-        write();
     }
 
     public void setContinuousPlays(int continuousPlays) {
         this.continuousPlays = continuousPlays;
-        write();
     }
 
     public void increaseContinuousPlays() {
         this.continuousPlays++;
-        write();
     }
 
     public void setCoins(int coins) {
         this.coins = coins;
-        write();
     }
 
     public int totalGames() {

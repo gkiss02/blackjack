@@ -18,6 +18,10 @@ public class Deck {
         }
     }
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
     public Card draw() {
         return cards.remove((int) (Math.random() * cards.size()));
     }
