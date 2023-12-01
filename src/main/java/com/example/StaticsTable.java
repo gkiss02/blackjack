@@ -27,6 +27,7 @@ public class StaticsTable extends JFrame {
         add(sp);
         setSize(500, 200);
         setVisible(true);
+        setResizable(false);
     }
     JTable j;
 }

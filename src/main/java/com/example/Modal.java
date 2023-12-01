@@ -64,6 +64,7 @@ public class Modal extends JDialog {
 		contentPane.add(dialogPane, BorderLayout.CENTER);
 		pack();
 		setLocationRelativeTo(getOwner());
+		setResizable(false);
 	}
 	private JPanel dialogPane;
 	private JPanel contentPanel;

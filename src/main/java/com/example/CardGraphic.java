@@ -37,7 +37,6 @@ public class CardGraphic extends JPanel {
 		symbol.setFont(new Font("Helvetica Neue", Font.PLAIN, 36));
 		add(symbol);
 		symbol.setBounds(new Rectangle(new Point(10, 25), symbol.getPreferredSize()));
-
 	}
 
 	private JLabel top;

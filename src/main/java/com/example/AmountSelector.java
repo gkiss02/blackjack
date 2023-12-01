@@ -69,6 +69,8 @@ public class AmountSelector extends JDialog {
 		contentPane.setPreferredSize(new Dimension(400, 300));
 		pack();
 		setLocationRelativeTo(getOwner());
+
+		setResizable(false);
 	}
 
 	private JSlider slider;

@@ -231,6 +231,8 @@ public class Game extends JFrame {
 	
 		add(resultContainer);
 		resultContainer.setBounds(new Rectangle(new Point(395, 220), resultContainer.getPreferredSize()));
+
+		setResizable(false);
 	}
 
 	private void disableButtons() {
