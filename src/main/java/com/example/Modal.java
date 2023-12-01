@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class LoginModal extends JDialog {
-	public LoginModal(Window owner, String text1, String text2) {
+public class Modal extends JDialog {
+	public Modal(Window owner, String text1, String text2) {
 		super(owner);
 		initComponents(text1,text2);
 	}

@@ -33,6 +33,10 @@ public class Game extends JFrame {
 	Deck deck = new Deck();
 	Participant dealer = new Participant();
 
+	boolean low = false;
+	boolean high = false;
+	boolean isDecided = false;
+
 	
 	public Game(Player player) {
 		this.player = player;
@@ -81,7 +85,24 @@ public class Game extends JFrame {
 		hintButton.setBounds(new Rectangle(new Point(300, 495), hintButton.getPreferredSize()));
 		hintButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				playerDrawCard();
+				if (player.getScore() <= 11) {
+					low = true;
+				} else if (player.getScore() >= 17 && !isDecided) {
+					high = true;
+				} else {
+					low = false;
+					high = false;
+				}
+
+				if (high) {
+					Modal highModal = new Modal(null, "Your score is over 17", "Are you sure you want to draw a card?");
+					highModal.setSize(new Dimension(400, 300));
+					highModal.setVisible(true);
+					high = false;
+					isDecided = true;
+				} else {
+					playerDrawCard();
+				}
 			}
 		});
 
@@ -90,8 +111,15 @@ public class Game extends JFrame {
 		holdButton.setBounds(new Rectangle(new Point(375, 495), holdButton.getPreferredSize()));
 		holdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				disableButtons();
-				dealerDrawCard();
+				if (low) {
+					Modal lowModal = new Modal(null, "Your score is under 11", "Are you sure you want to hold?");
+					lowModal.setSize(new Dimension(400, 300));
+					lowModal.setVisible(true);
+					low = false;
+				} else {
+					disableButtons();
+					dealerDrawCard();
+				}
 			}
 		});
 		
@@ -225,12 +253,16 @@ public class Game extends JFrame {
 			resultText.setText("Blackjack!");
 			resultContainer.setVisible(true);
 			disableButtons();
+			App.statics.increaseWins();
+			App.statics.setCoinsWon(player.getCoins() * 5 / 2);
 		}
 
 		if (player.getScore() > 21) {
 			resultText.setText("Bust!");
 			resultContainer.setVisible(true);
 			disableButtons();
+			App.statics.increaseLoses();
+			App.statics.setCoinsLost(player.getCoins());
 		}
 	}
 
@@ -248,14 +280,19 @@ public class Game extends JFrame {
 					if (dealer.getScore() > player.getScore() && dealer.getScore() <= 21) {
 						resultText.setText("You lose!");
 						resultContainer.setVisible(true);
+						App.statics.increaseLoses();
+						App.statics.setCoinsLost(player.getCoins());
 					} else if (dealer.getScore() == player.getScore()) {
 						App.statics.setCoins(App.statics.getCoins() + player.getCoins());
 						resultText.setText("Tie!");
 						resultContainer.setVisible(true);
+						App.statics.increaseTies();
 					} else {
 						App.statics.setCoins(App.statics.getCoins() + player.getCoins() * 2);
 						resultText.setText("You win!");
 						resultContainer.setVisible(true);
+						App.statics.increaseWins();
+						App.statics.setCoinsWon(player.getCoins() * 2);
 					}
 				}
 			}

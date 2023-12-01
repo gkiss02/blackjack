@@ -23,7 +23,7 @@ public class MainMenu extends JPanel {
 			App.statics.setCoins(1000);
 			String text1 = "Welcome to the world of Black Jack!";
 			String text2 = "Here is your 1000 coins as a bonus";
-			LoginModal loginModal = new LoginModal(null, text1, text2);
+			Modal loginModal = new Modal(null, text1, text2);
 			loginModal.setSize(new Dimension(400, 300));
 			loginModal.setVisible(true);
 		} 
@@ -33,7 +33,7 @@ public class MainMenu extends JPanel {
 			App.statics.setCoins(App.statics.getCoins() + bonus);
 			String text1 = "Thank you for coming back " + App.statics.getContinuousPlays() + " days in a row!";
 			String text2 = "Here is your " + bonus + " coins as a bonus";
-			LoginModal loginModal = new LoginModal(null, text1, text2);
+			Modal loginModal = new Modal(null, text1, text2);
 			loginModal.setSize(new Dimension(400, 300));
 			loginModal.setVisible(true);
 		} else {
@@ -61,6 +61,14 @@ public class MainMenu extends JPanel {
 		staticsButton.setText("Statics");
 		add(staticsButton);
 		staticsButton.setBounds(165, 100, 76, 27);
+		staticsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StaticsTable staticsTable = new StaticsTable();
+				staticsTable.setSize(new Dimension(500, 200));
+				staticsTable.setVisible(true);
+			}
+		});
 
 		exitButton.setText("Exit");
 		add(exitButton);
