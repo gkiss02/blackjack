@@ -2,6 +2,9 @@ package com.example;
 
 import javax.swing.*;
 
+/**
+ * The StaticsTable class represents a JFrame that displays statistics in a table format.
+ */
 public class StaticsTable extends JFrame {
     public StaticsTable() {
         initComponents();

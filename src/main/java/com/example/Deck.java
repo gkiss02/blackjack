@@ -2,9 +2,16 @@ package com.example;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a deck of playing cards.
+ */
 public class Deck {
     ArrayList<Card> cards;
 
+    /**
+     * Constructs a new deck of cards.
+     * The deck is initialized with 52 standard playing cards.
+     */
     public Deck() {
         this.cards = new ArrayList<Card>();
 
@@ -18,10 +25,19 @@ public class Deck {
         }
     }
 
+    /**
+     * Returns the list of cards in the deck.
+     * @return the list of cards
+     */
     public ArrayList<Card> getCards() {
         return cards;
     }
 
+    /**
+     * Draws a card from the deck.
+     * The drawn card is removed from the deck.
+     * @return the drawn card
+     */
     public Card draw() {
         return cards.remove((int) (Math.random() * cards.size()));
     }

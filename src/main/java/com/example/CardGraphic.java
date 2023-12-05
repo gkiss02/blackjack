@@ -4,6 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+/**
+ * The CardGraphic class represents a graphical representation of a playing card.
+ * It extends the JPanel class and provides methods to initialize and set up the components of the card.
+ */
 public class CardGraphic extends JPanel {
 	public CardGraphic(String name, char symbolType) {
 		initComponents(name, symbolType);

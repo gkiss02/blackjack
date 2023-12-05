@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.*;
 
+/**
+ * A custom dialog window that extends JDialog.
+ * This class represents a modal dialog that displays two lines of text and an OK button.
+ * It is typically used to show informative messages or prompts to the user.
+ */
 public class Modal extends JDialog {
 	public Modal(Window owner, String text1, String text2) {
 		super(owner);

@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * A dialog window that allows the user to select an amount of coins.
+ */
 public class AmountSelector extends JDialog {
 	public AmountSelector(Window owner) {
 		super(owner);

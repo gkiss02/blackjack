@@ -7,6 +7,11 @@ import java.time.LocalDate;
 
 import javax.swing.*;
 
+/**
+ * The MainMenu class represents the main menu panel of the Blackjack game.
+ * It contains buttons for playing the game, viewing statistics, and exiting the game.
+ * The panel also displays the player's coin count and the creator's information.
+ */
 public class MainMenu extends JPanel {
 	public MainMenu() {
 		initComponents();

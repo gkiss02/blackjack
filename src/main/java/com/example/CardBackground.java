@@ -5,6 +5,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
+/**
+ * The CardBackground class represents the background of a card in a card game.
+ * It extends the JPanel class and provides methods to initialize and customize the components of the card background.
+ */
 public class CardBackground extends JPanel {
 	public CardBackground() {
 		initComponents();

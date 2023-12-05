@@ -6,6 +6,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+/**
+ * The Game class represents a game of Blackjack.
+ * It extends the JFrame class and contains various components and logic for the game.
+ */
 public class Game extends JFrame {
 	private JLabel dealerLabel;
 	private JLabel playerLabel;
@@ -29,9 +33,9 @@ public class Game extends JFrame {
 	private JSeparator resultSeparator;
 	private JButton newGameButton;
 
-	Player player;
-	Deck deck = new Deck();
-	Participant dealer = new Participant();
+	private Player player;
+	private Deck deck = new Deck();
+	private Participant dealer = new Participant();
 
 	boolean low = false;
 	boolean high = false;
@@ -242,6 +246,14 @@ public class Game extends JFrame {
 		holdButton.setEnabled(false);
 	}
 
+	/**
+	 * Draws a card from the deck and adds it to the player's hand.
+	 * Updates the player's score, displays the card graphic, and adjusts the size of the card holder.
+	 * If the player has two cards and a score of 21, it updates the player's coins, displays "Blackjack!",
+	 * shows the result container, disables buttons, increases wins, sets coins won, and writes the statistics.
+	 * If the player's score exceeds 21, it displays "Bust!", shows the result container, disables buttons,
+	 * increases losses, sets coins lost, and writes the statistics.
+	 */
 	private void playerDrawCard() {
 		Card card = deck.draw();
 		player.addCard(card);
@@ -270,6 +282,15 @@ public class Game extends JFrame {
 		}
 	}
 
+	/**
+	 * This method is responsible for the dealer drawing a card in the game.
+	 * It updates the dealer's score, and determines the outcome of the game based on the dealer's score and the player's score.
+	 * If the dealer's score is less than or equal to 16 or the dealer has a soft hand,
+	 * and the dealer's score is less than the player's score and less than 21,
+	 * the dealer continues to draw cards until one of the conditions is no longer met.
+	 * Once the game outcome is determined, the appropriate result is displayed,
+	 * and the game statistics and coin balance are updated accordingly.
+	 */
 	private void dealerDrawCard() {
 		dealerCardHolder.remove(1);
 		Timer timer = new Timer(2000, new ActionListener() {
@@ -307,6 +328,9 @@ public class Game extends JFrame {
 		timer.start();
 	}
 
+	/**
+	 * Deals a card to the dealer, updates the dealer's score, and adds the card to the dealer's card holder.
+	 */
 	private void dealerGetCard () {
 		Card card = deck.draw();
 		dealer.addCard(card);
